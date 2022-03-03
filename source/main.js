@@ -1,13 +1,17 @@
 import { AmbientLight } from "three"
 import { Ground } from "./Entities/ground"
 import { mobaWorldObject } from "./mobaWorld"
-import { RotatingCube } from "./Entities/rotatingCube";
-import { RigidBodyRotatingCube } from "./Entities/rigidBodyRotatingCube";
+import { RigidBodyCube } from "./Entities/rigidBodyCube";
 import { RotationSystem } from "./Systems/rotationSystem"
 import { Rotating } from "./Components/c_rotating"
 import { SimulatePhysicsSystem } from "./Systems/simulatePhysicsSystem"
 import { SynchronizePhysicsSystem } from "./Systems/synchronizePhysicsSystem";
 import { RigidBodyComponent } from "./Components/c_rigidBody";
+import { InputControllerComponent } from "./Components/c_inputController";
+import { CameraComponent } from "./Components/c_camera";
+import { FPSInputSystem } from "./Systems/FPSInputSystem";
+import { FPSCamera } from "./Entities/fpsCamera"
+ 
 
 window.mobaWorld = mobaWorldObject;
 
@@ -21,22 +25,23 @@ Ammo().then((Ammojs) => {
     window.mobaWorld.physicsWorld.tmpTransform =  new Ammo.btTransform();
 
     window.mobaWorld.registerComponent(Rotating);
+    window.mobaWorld.registerComponent(InputControllerComponent);
     window.mobaWorld.registerComponent(RigidBodyComponent);
+    window.mobaWorld.registerComponent(CameraComponent);
+    window.mobaWorld.registerSystem(FPSInputSystem);
     window.mobaWorld.registerSystem(RotationSystem);
     window.mobaWorld.registerSystem(SimulatePhysicsSystem);
     window.mobaWorld.registerSystem(SynchronizePhysicsSystem);
     window.mobaWorld.camera.position.set(0,5,10);
-    
+    new FPSCamera(window.mobaWorld.camera);
+
     let ground = new Ground();
-    let rotatingCube = new RotatingCube(5);
-    let rigidRotatingCube = new RigidBodyRotatingCube(5);
+    let rigidRotatingCube = new RigidBodyCube(5);
     rigidRotatingCube.entity.getObject3D().position.set(0,10,0);
 
 
     let ambientLight = new AmbientLight();
     window.mobaWorld.scene.add(ambientLight);
-    
-
 });
 
 

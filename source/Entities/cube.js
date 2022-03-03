@@ -4,7 +4,7 @@ import { BoxBufferGeometry, Mesh, MeshPhongMaterial } from "three";
 class Cube {
     constructor(size=1) {
         this.size = size;
-        this.entity = mobaWorld.createEntity();
+        this.entity = window.mobaWorld.createEntity();
         this.createCubeObject3D();
     }
     createCubeObject3D() {

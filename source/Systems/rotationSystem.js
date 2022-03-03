@@ -5,11 +5,11 @@ class RotationSystem extends System {
     execute(delta) {
       this.queries.entities.results.forEach((entityWithRigidBodyComponent) => {
         let rigidBodyObject = entityWithRigidBodyComponent.getComponent(RigidBodyComponent).ref;
-        console.log(rigidBodyObject);
-        
-        let foceVec = new Ammo.btVector3(0,0,0);
-        rigidBodyObject.body.applyCentralImpulse(foceVec);
-
+        if(!rigidBodyObject.hasMoved) {
+          let foceVec = new Ammo.btVector3(3,0,0);
+          rigidBodyObject.body.applyImpulse(foceVec, new Ammo.btVector3(5,5,0));
+          rigidBodyObject.hasMoved = true;
+        }
       })
     }
   }

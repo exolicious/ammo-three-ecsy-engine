@@ -1,11 +1,12 @@
 import { initialize } from "ecsy-three";
 
-const { world, scene, camera, sceneEntity, cameraEntity, rendererEntity } = initialize();
+const { world, scene, camera, renderer, sceneEntity, cameraEntity, rendererEntity } = initialize();
 
 export const mobaWorldObject = {
     world: world,
     scene: scene,
     camera: camera,
+    renderer: renderer,
     sceneEntity: sceneEntity,
     cameraEntity: cameraEntity,
     rendererEntity: rendererEntity,
