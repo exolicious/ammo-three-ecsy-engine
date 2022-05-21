@@ -5,7 +5,7 @@ import { Vector3, Quaternion } from "three"
 class SynchronizePhysicsSystem extends System {
     execute(delta) {
       this.queries.entities.results.forEach((entityWithRigidBodyComponent) => {
-        let rigidBodyObject = entityWithRigidBodyComponent.getComponent(RigidBodyComponent).ref
+        let rigidBodyObject = entityWithRigidBodyComponent.getComponent(RigidBodyComponent).ref;
         let object3D = entityWithRigidBodyComponent.getObject3D();
         let tmpTransform = new Ammo.btTransform();
 

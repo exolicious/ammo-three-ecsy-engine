@@ -1,4 +1,3 @@
-
 class InputController {
     constructor() {
         this.initialize();

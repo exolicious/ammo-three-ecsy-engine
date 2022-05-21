@@ -13,7 +13,7 @@ import { InputControllerComponent } from "./Components/inputControllerComponent"
 import { CameraComponent } from "./Components/cameraComponent";
 
 import { RigidBodyCube } from "./Entities/rigidBodyCube";
-import { FPSCamera } from "./Entities/fpsCamera"
+import { Player } from "./Entities/player"
  
 
 window.mobaWorld = mobaWorldObject;
@@ -62,7 +62,7 @@ function init() {
         window.mobaWorld.registerSystem(SynchronizePhysicsSystem);
 
         window.mobaWorld.camera.position.set(0,5,10);
-        new FPSCamera(window.mobaWorld.camera);
+        new Player(window.mobaWorld.camera);
 
         let ground = new Ground();
         let rigidRotatingCube = new RigidBodyCube(5);

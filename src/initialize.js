@@ -35,7 +35,7 @@ export function initialize(world, options = {}) {
   const sceneEntity = world.createEntity().addObject3DComponent(scene);
 
   const camera = new PerspectiveCamera(
-    90,
+    45,
     window.innerWidth / window.innerHeight,
     0.1,
     1000

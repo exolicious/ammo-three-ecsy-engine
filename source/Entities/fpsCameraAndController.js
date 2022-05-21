@@ -2,12 +2,11 @@ import { InputControllerComponent } from "../Components/inputControllerComponent
 import { CameraComponent } from "../Components/cameraComponent"
 import { Quaternion, Vector3 } from "three";
 
-class FPSCamera {
+class FPSCameraAndController {
     constructor(camera) {
         this.camera = camera;
         this.entity = window.mobaWorld.createEntity();
         this.decorateWithComponents();
-        this.keys = {};
 
         document.addEventListener("mousedown", (event) => this.onMouseDown(event), false);
         document.addEventListener("mouseup", (event) => this.onMouseUp(event), false);
@@ -43,12 +42,12 @@ class FPSCamera {
     }
 
     onKeyDown(event) {
-        this.keys[event.keyCode] = true;
+        this.inputComponent.keys[event.key] = true;
     }
 
     onKeyUp(event) {
-        this.keys[event.keyCode] = false;
+        this.inputComponent.keys[event.key] = false;
     }
 }
 
-export { FPSCamera }
+export { FPSCameraAndController }

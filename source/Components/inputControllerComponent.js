@@ -8,6 +8,7 @@ InputControllerComponent.schema = {
     rightButton: {default: false,  type: Types.Boolean },
     mouseXMovement: {default: 0,  type: Types.Number },
     mouseYMovement: {default: 0,  type: Types.Number },
+    keys: {type: Types.Array}
 };
 
 export { InputControllerComponent }

@@ -1,15 +1,18 @@
 import { System } from "ecsy"
 import { CameraComponent } from "../Components/cameraComponent"
 import { InputControllerComponent } from "../Components/inputControllerComponent"
-import { Quaternion, Vector3 } from "three"
+import { AnimationBlendMode, Quaternion, Vector3 } from "three"
+import { RigidBodyComponent } from "../Components/rigidBodyComponent";
+
+const accelaration = 10;
 
 class FPSInputSystem extends System {
   execute(delta) {
-    console.log("execute");
     this.queries.fpsCameras.results.forEach((fpsCameraEntity) => {
       const inputControllerComponent = fpsCameraEntity.getMutableComponent(InputControllerComponent);
       const cameraComponent = fpsCameraEntity.getMutableComponent(CameraComponent);
-
+      
+      //mouse
       const xh = inputControllerComponent.mouseXMovement / window.innerWidth;
       const yh = inputControllerComponent.mouseYMovement / window.innerHeight;
       
@@ -30,18 +33,38 @@ class FPSInputSystem extends System {
       inputControllerComponent.mouseXMovement = 0;
       inputControllerComponent.mouseYMovement = 0;
 
+      //keys
+      
+      if(inputControllerComponent.keys["w"]) {
+        this.forward = true;
+      }
+    });
+
+    this.queries.fpsRigidBodies.results.forEach((fpsRigidBody) => {
+      let rigidBodyComponent = fpsRigidBody.getComponent(RigidBodyComponent);
+      if(this.forward) {
+        console.log(rigidBodyComponent.ref);
+        console.log("moving forward");
+        let forceVec = new Ammo.bt3Vector(0,10,10);
+        rigidBodyComponent.ref.body.applyCentralImpule(forceVec);
+      }
+      this.forward = false;
     });
   }
   
   clamp(x, a, b) {
     return Math.min(Math.max(x, a), b);
   }
+
 }
-  
+
 FPSInputSystem.queries = {
   fpsCameras: {
-      components: [CameraComponent, InputControllerComponent],
+    components: [CameraComponent, InputControllerComponent],
   },
+  fpsRigidBodies: {
+    components: [RigidBodyComponent],
+  }
 }
 
 export { FPSInputSystem }
