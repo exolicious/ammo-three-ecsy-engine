@@ -1,4 +1,4 @@
-import { Rotating } from "../Components/c_rotating"
+import { Rotating } from "../Components/rotatingComponent"
 import { Cube } from "./cube"
 
 class RotatingCube extends Cube {

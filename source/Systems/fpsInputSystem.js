@@ -1,35 +1,20 @@
 import { System } from "ecsy"
-import { CameraComponent } from "../Components/c_camera"
-import { InputControllerComponent } from "../Components/c_inputController"
+import { CameraComponent } from "../Components/cameraComponent"
+import { InputControllerComponent } from "../Components/inputControllerComponent"
 import { Quaternion, Vector3 } from "three"
 
 class FPSInputSystem extends System {
-  init() {
-    this.previous = {
-            leftButton: false,
-            rightButton: false,
-            mouseX: 0,
-            mouseY: 0,
-            mouseXDelta: 0,
-            mouseYDelta: 0
-    }
-  }
-
   execute(delta) {
-    this.queries.entities.results.forEach((fpsCameraEntity) => {
-      const inputControllerComponent = fpsCameraEntity.getComponent(InputControllerComponent);
+    console.log("execute");
+    this.queries.fpsCameras.results.forEach((fpsCameraEntity) => {
+      const inputControllerComponent = fpsCameraEntity.getMutableComponent(InputControllerComponent);
       const cameraComponent = fpsCameraEntity.getMutableComponent(CameraComponent);
-    
-      let current = {...inputControllerComponent.current} 
 
-      let mouseXDelta = current.mouseX - this.previous.mouseX;
-      let mouseYDelta = current.mouseY - this.previous.mouseY;
-
-      const xh = mouseXDelta / window.innerWidth;
-      const yh = mouseYDelta / window.innerHeight;
+      const xh = inputControllerComponent.mouseXMovement / window.innerWidth;
+      const yh = inputControllerComponent.mouseYMovement / window.innerHeight;
       
       cameraComponent.phi += -xh * 5,
-      cameraComponent.theta = this.clamp(cameraComponent.theta + -yh *5, -Math.PI / 3, Math.PI / 3);
+      cameraComponent.theta = this.clamp(cameraComponent.theta + -yh * 5, -Math.PI / 2, Math.PI / 2);
 
       const qx = new Quaternion();
       qx.setFromAxisAngle(new Vector3(0, 1, 0), cameraComponent.phi);
@@ -42,8 +27,10 @@ class FPSInputSystem extends System {
 
       cameraComponent.threeCamera.quaternion.copy(q);
 
-      this.previous = {...current};
-    })
+      inputControllerComponent.mouseXMovement = 0;
+      inputControllerComponent.mouseYMovement = 0;
+
+    });
   }
   
   clamp(x, a, b) {
@@ -52,7 +39,7 @@ class FPSInputSystem extends System {
 }
   
 FPSInputSystem.queries = {
-  entities: {
+  fpsCameras: {
       components: [CameraComponent, InputControllerComponent],
   },
 }

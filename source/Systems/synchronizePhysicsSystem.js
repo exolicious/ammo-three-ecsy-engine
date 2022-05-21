@@ -1,5 +1,5 @@
 import { System } from "ecsy"
-import { RigidBodyComponent } from "../Components/c_rigidBody"
+import { RigidBodyComponent } from "../Components/rigidBodyComponent"
 import { Vector3, Quaternion } from "three"
 
 class SynchronizePhysicsSystem extends System {
